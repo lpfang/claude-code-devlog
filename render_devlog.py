@@ -558,12 +558,12 @@ def demote_headings(md: str, floor: int = 5) -> str:
     fence_char = None   # '`' or '~' when inside a fence
     fence_len = 0
     for line in (md or "").split("\n"):
-        m = re.match(r'^ {0,3}([`~]{3,})$', line)
+        m = re.match(r'^ {0,3}([`~]{3,})(.*)$', line)
         if m:
-            ch, ln = m.group(1)[0], len(m.group(1))
+            ch, ln, info = m.group(1)[0], len(m.group(1)), m.group(2)
             if fence_char is None:
                 fence_char, fence_len = ch, ln
-            elif ch == fence_char and ln >= fence_len:
+            elif ch == fence_char and ln >= fence_len and info.strip() == "":
                 fence_char, fence_len = None, 0
             out.append(line)
             continue
@@ -819,8 +819,7 @@ class RawRenderer:
                     f'<span class="st">{status}</span></div>{body}</div>')
         return ""
 
-    def session_html(self, path: str) -> str:
-        meta = parse_session(path)
+    def session_html(self, path: str, meta: Session) -> str:
         if not meta:
             return ""
         sid = meta.session_id[:8] if meta.session_id else "session"
@@ -872,7 +871,7 @@ class RawRenderer:
                     label += f" — {summarize(ev['text'])}"
                     toc_parts.append(f'<a class="toc-t" href="#t-{sid}-{ti}">{escape_html(label)}</a>')
         toc = "".join(toc_parts)
-        sessions_html = "\n".join(self.session_html(f) for f, m in metas)
+        sessions_html = "\n".join(self.session_html(f, m) for f, m in metas)
         return (
             '<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
