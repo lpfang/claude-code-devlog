@@ -1,0 +1,19 @@
+{
+  "_comment": "These are the ONLY additions made to ~/.claude/settings.json. The Stop hook entry is APPENDED to the existing Stop hooks array (which already contains the 'say \"boss, i am done.\"' hook). This file contains no secrets.",
+  "cleanupPeriodDays": 365,
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/devlogs/render_devlog.py --stdin --both",
+            "async": true,
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

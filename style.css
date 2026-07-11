@@ -1,0 +1,72 @@
+/* devlog HTML styling — used by view.sh (pandoc --css + --embed-resources) */
+:root {
+  --fg: #1f2328;
+  --bg: #ffffff;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --code-bg: #f6f8fa;
+  --accent: #0969da;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #e6edf3; --bg: #0d1117; --muted: #8b949e;
+    --border: #30363d; --code-bg: #161b22; --accent: #58a6ff;
+  }
+}
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: var(--fg); background: var(--bg);
+  max-width: 920px; margin: 0 auto; padding: 2rem 1.25rem 6rem;
+  line-height: 1.6; font-size: 15px;
+}
+header#title-block-header h1.title {
+  font-size: 1.8rem; border-bottom: 2px solid var(--border); padding-bottom: .4rem;
+}
+h1, h2, h3, h4 { line-height: 1.25; }
+h2 { border-bottom: 1px solid var(--border); padding-bottom: .3rem; margin-top: 2.5rem; }
+h3 { margin-top: 1.8rem; }
+a { color: var(--accent); }
+code, pre {
+  font-family: "SF Mono", Menlo, Consolas, "PingFang SC", monospace; font-size: 13px;
+}
+code { background: var(--code-bg); padding: .12em .35em; border-radius: 4px; }
+pre {
+  background: var(--code-bg); padding: .9rem 1rem; border-radius: 8px;
+  overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  border: 1px solid var(--border);
+}
+pre code { background: none; padding: 0; }
+blockquote {
+  margin: .6rem 0; padding: .2rem 1rem; color: var(--muted);
+  border-left: .25rem solid var(--accent); background: var(--code-bg);
+  border-radius: 0 6px 6px 0;
+}
+table { border-collapse: collapse; margin: .8rem 0; }
+th, td { border: 1px solid var(--border); padding: .35rem .7rem; text-align: left; }
+th { background: var(--code-bg); }
+details {
+  margin: .5rem 0; background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: .2rem .8rem;
+}
+details > summary { cursor: pointer; font-weight: 600; color: var(--muted); padding: .3rem 0; }
+details[open] > summary { color: var(--fg); }
+/* raw-view truncate toggle (JS-assisted): continuous preview + collapsible rest,
+   with a toggle button at BOTH top and bottom when expanded */
+.tr-rest { display: none; }
+.tr.open .tr-rest { display: inline; }
+.tr-prose { white-space: pre-wrap; }
+.tr-btn { background: none; border: none; color: var(--accent); cursor: pointer;
+  padding: .1em .35em; font: inherit; display: inline-block; border-radius: 4px; }
+.tr-btn:hover { text-decoration: underline; }
+.tr-btn.tr-top { display: none; }
+.tr.open .tr-btn.tr-top { display: inline-block; }
+.tr-btn::after { content: "(truncated " attr(data-rest) " chars)"; }
+.tr.open .tr-btn::after { content: "(部分显示)"; }
+hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+nav#TOC {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: .8rem 1.2rem;
+}
+nav#TOC ul { margin: .2rem 0; }

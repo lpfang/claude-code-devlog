@@ -1,0 +1,4 @@
+sample-devlog*.md
+sample-devlog*.html
+__pycache__/
+.DS_Store
